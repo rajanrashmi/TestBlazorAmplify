@@ -1,0 +1,34 @@
+﻿<header>
+    <nav class="navbar has-background-dark is-dark"
+         role="navigation"
+         aria-label="main navigation">
+        <div class="navbar-brand">
+            @*<a class="navbar-item"
+               href="https://blazor.net/"
+               target="_blank"
+               rel="noopener noreferrer">
+                <i class="fab js-logo fa-microsoft fa-2x" aria-hidden="true" />
+            </a>*@
+            <NavLink to="/" class="navbar-item nav-home">
+                <span class="brand-first">RAJAN</span>
+                <span class="brand-second">BUCKET</span>
+                <span class="brand-third">LIST</span>
+            </NavLink>
+        </div>
+       
+        <div >
+            <AuthorizeView>
+                <Authorized>
+                    Hello, @context.User.Identity.Name! Your Authentication Provider:@context.User.Identity.AuthenticationType
+                    <a style="position:absolute; right:50px"href="/.auth/logout?post_logout_redirect_uri=/">Log out</a>
+                </Authorized>
+                <NotAuthorized>
+                    <a style="position:absolute; right:50px" href="/login-providers">Log in</a>
+                </NotAuthorized>
+            </AuthorizeView>
+        </div>
+
+    </nav>
+
+
+</header>
