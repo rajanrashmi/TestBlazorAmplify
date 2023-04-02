@@ -1,7 +1,26 @@
 ﻿@page "/authentication/{action}"
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
+<h1>Rajan Test</h1>
 <RemoteAuthenticatorView Action="@Action" />
 
 @code {
-    [Parameter] public string? Action { get; set; }
+    int a = 0;
+    string myurl = "login";
+    [Parameter] public string? Action2 { get; set; } 
+    
+    private int myVar;
+
+    [Parameter]
+    public string Action
+    {
+        get { return myurl; }
+        set { myurl = value; }
+    }
+    
+
+
+    
+
+  
 }

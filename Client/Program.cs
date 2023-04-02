@@ -32,6 +32,7 @@ namespace Client
                 // Configure your authentication provider options here.
                 // For more information, see https://aka.ms/blazor-standalone-auth
                 builder.Configuration.Bind("Cognito", options.ProviderOptions);
+                var a =options.ProviderOptions.Authority;
             });
 
             await builder.Build().RunAsync();
