@@ -1,8 +1,10 @@
 ﻿@inject NavigationManager Navigation
+@inject ILogger<RedirectToLogin> logger
 
 @code {
     protected override void OnInitialized()
     {
+        logger.LogInformation($"Rajan Navigation.Uri: {Navigation.Uri}");
         Navigation.NavigateTo($"authentication/login?returnUrl={Uri.EscapeDataString(Navigation.Uri)}");
     }
 }

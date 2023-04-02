@@ -33,6 +33,10 @@ namespace Client
                 // For more information, see https://aka.ms/blazor-standalone-auth
                 builder.Configuration.Bind("Cognito", options.ProviderOptions);
                 var a =options.ProviderOptions.Authority;
+                Console.WriteLine($"Rajan options.ProviderOptions.Authority:{a}");
+                
+                
+
             });
 
             await builder.Build().RunAsync();
