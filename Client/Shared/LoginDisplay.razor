@@ -7,7 +7,17 @@
 
 <AuthorizeView>
     <Authorized>
-        Hello, @context.User.Identity?.Name!
+        @if(context.User.Identity== null)
+        {
+            <p>Hello Guest</p>
+        }
+        else
+        {
+            
+            <p>Hello, @context.User.Identity?.Name!</p>
+
+        }
+        
         <button class="nav-link btn btn-link" @onclick="BeginSignOut">Log out</button>
     </Authorized>
     <NotAuthorized>
