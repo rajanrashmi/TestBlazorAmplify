@@ -11,6 +11,7 @@ namespace Client
     {
         public static async Task Main(string[] args)
         {
+            //testing
             //var builder = WebAssemblyHostBuilder.CreateDefault(args);
             //builder.RootComponents.Add<App>("app");
 
