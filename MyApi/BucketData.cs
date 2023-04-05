@@ -1,4 +1,8 @@
-﻿using Data;
+﻿using Amazon.S3.Model;
+using Amazon.S3;
+using Data;
+using System.Text.Json;
+using Amazon;
 
 namespace MyApi
 {
@@ -12,6 +16,10 @@ namespace MyApi
 
     public class BucketData : IBucketData
     {
+        public BucketData()
+        {
+        
+        }
         public Task<BucketObject> AddBucketObject(BucketObject product)
         {
             throw new NotImplementedException();
@@ -22,9 +30,72 @@ namespace MyApi
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<BucketObject>> GetBucketObjects()
+        public async Task<IEnumerable<BucketObject>> GetBucketObjects()
         {
-            throw new NotImplementedException();
+            //var options = new JsonSerializerOptions
+            //{
+            //    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            //};
+            //var uri = "https://u6xz8l7ivk.execute-api.us-east-1.amazonaws.com/Prod/api/bucket";
+            //List <BucketObject> bucketObjects = new List<BucketObject>();
+            //var result = await new HttpClient().GetStringAsync(uri);
+
+            //bucketObjects =  JsonSerializer.Deserialize<List<BucketObject>>(result,options);
+            //return bucketObjects.AsEnumerable();
+            //return Task.FromResult(bucketObjects.AsEnumerable());
+
+
+            string bucketName = "rajan-test-bucket-2";
+            List<BucketObject> fileNames = new List<BucketObject>();
+
+
+            // Create a client
+            AmazonS3Client client = new AmazonS3Client(RegionEndpoint.USEast1);
+
+
+            // Issue call
+            ListBucketsResponse myResponse = await client.ListBucketsAsync();
+
+            // View response data
+            Console.WriteLine("Buckets owner - {0}", myResponse.Owner.DisplayName);
+            foreach (S3Bucket bucket in myResponse.Buckets)
+            {
+                Console.WriteLine("Bucket {0}, Created on {1}", bucket.BucketName, bucket.CreationDate);
+            }
+
+            var foundBucket = myResponse.Buckets.Select(x => x.BucketName == bucketName);
+            if (foundBucket.Any())
+            {
+                var req = new ListObjectsV2Request()
+                {
+                    BucketName = bucketName,
+                    Prefix = "File",
+
+                };
+                int a = 0;
+
+                try
+                {
+                    var bucketObjects = await client.ListObjectsV2Async(req);
+
+                    bucketObjects.S3Objects.ForEach(obj => fileNames.Add(new BucketObject() {
+
+                        FileName = obj.Key,
+                        Id = obj.ETag
+                    
+                    }));
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error encountered on server. Message:'{ex.Message}' getting list of objects.");
+
+                }
+
+                
+            }
+
+
+            return fileNames;
         }
 
         public Task<BucketObject> UpdateBucketObject(BucketObject product)
