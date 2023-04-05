@@ -51,10 +51,14 @@ namespace MyApi
 
             // Create a client
             AmazonS3Client client = new AmazonS3Client(RegionEndpoint.USEast1);
+            Console.WriteLine("pass1");
+
 
 
             // Issue call
             ListBucketsResponse myResponse = await client.ListBucketsAsync();
+            Console.WriteLine("pass2");
+
 
             // View response data
             Console.WriteLine("Buckets owner - {0}", myResponse.Owner.DisplayName);
@@ -76,7 +80,12 @@ namespace MyApi
 
                 try
                 {
+                    Console.WriteLine("pass3");
+
                     var bucketObjects = await client.ListObjectsV2Async(req);
+
+                    Console.WriteLine("pass4");
+
 
                     bucketObjects.S3Objects.ForEach(obj => fileNames.Add(new BucketObject() {
 
