@@ -39,7 +39,14 @@ namespace Client
                 
 
             });
-           
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    policy =>
+                    {
+                        policy.AllowAnyOrigin();  //set the allowed origin  
+                    });
+            });
             await builder.Build().RunAsync();
         }
     }

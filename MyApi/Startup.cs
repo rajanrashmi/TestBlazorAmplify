@@ -12,7 +12,21 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container
     public void ConfigureServices(IServiceCollection services)
     {
+        Console.WriteLine($"In ConfigureServices()");
         services.AddControllers();
+
+        services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(
+                policy =>
+                {
+                    Console.WriteLine($"Before AllowAnyOrigin()");
+                    //options => options.WithOrigins("http://localhost:3000").AllowAnyMethod()
+                    policy.WithOrigins("https://localhost:5001").AllowAnyMethod();
+
+                    policy.AllowAnyOrigin();  //set the allowed origin  
+                });
+        });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
@@ -28,6 +42,8 @@ public class Startup
         app.UseRouting();
 
         app.UseAuthorization();
+
+        app.UseCors();
 
         app.UseEndpoints(endpoints =>
         {

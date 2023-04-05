@@ -1,14 +1,19 @@
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace MyApi.Controllers;
 
 [Route("api/[controller]")]
+[EnableCors]
 public class ValuesController : ControllerBase
 {
     // GET api/values
     [HttpGet]
     public IEnumerable<string> Get()
     {
+
+        
         return new string[] { "value1", "value2" };
     }
 

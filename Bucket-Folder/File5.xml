@@ -1,0 +1,13 @@
+﻿<RealEC-XML>
+  <Header>
+    <Format>RealEC</Format>
+  </Header>
+
+  <Transaction>
+    <ProductList>
+      <Count>1</Count>
+      <Product>Product 5</Product>
+    </ProductList>
+  </Transaction>
+  
+</RealEC-XML>

@@ -1,4 +1,4 @@
-﻿@page "/secured"
+﻿@*@page "/secured"
 @using Microsoft.AspNetCore.Authorization
 @inject HttpClient Http
 @attribute [Authorize]
@@ -14,8 +14,9 @@
     {
         try
         {
+            var h = Http.DefaultRequestHeaders;
             // var response = await Http.GetStringAsync("/api/secured/HelloYou?name=rk");
-            var response = await Http.GetStringAsync("https://bv4kah4hga.execute-api.us-west-2.amazonaws.com/UAT/api/values");
+            var response = await Http.GetStringAsync("https://psau5tbauj.execute-api.us-east-1.amazonaws.com/Prod/api/values");
             result = response.ToString();
 
         }
@@ -28,4 +29,53 @@
        
     }
 
+}*@
+
+
+@page "/secured"
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization;
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<h1>ClaimsPrincipal Data</h1>
+
+<button @onclick="GetClaimsPrincipalData">Get ClaimsPrincipal Data</button>
+
+<p>@authMessage</p>
+
+@if (claims.Count() > 0)
+{
+    <ul>
+        @foreach (var claim in claims)
+        {
+            <li>@claim.Type: @claim.Value</li>
+        }
+    </ul>
+}
+
+<p>@surname</p>
+
+@code {
+    private string? authMessage;
+    private string? surname;
+    private IEnumerable<Claim> claims = Enumerable.Empty<Claim>();
+
+    private async Task GetClaimsPrincipalData()
+    {
+        var authState = await AuthenticationStateProvider
+            .GetAuthenticationStateAsync();
+        var user = authState.User;
+        var isAdminRole = user.IsInRole("Admin");
+
+        if (user.Identity is not null && user.Identity.IsAuthenticated)
+        {
+            authMessage = $"{user.Identity.Name} is authenticated.";
+            claims = user.Claims;
+            surname = user.FindFirst(c => c.Type == ClaimTypes.Surname)?.Value;
+        }
+        else
+        {
+            authMessage = "The user is NOT authenticated.";
+        }
+    }
 }
