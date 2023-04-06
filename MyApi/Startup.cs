@@ -23,6 +23,7 @@ public class Startup
                     Console.WriteLine($"Before AllowAnyOrigin()");
                     //options => options.WithOrigins("http://localhost:3000").AllowAnyMethod()
                     policy.WithOrigins("https://localhost:5001").AllowAnyMethod();
+                    policy.WithOrigins("https://main.d1xs1i0yeekm3q.amplifyapp.com").AllowAnyMethod();
 
                     policy.AllowAnyOrigin();  //set the allowed origin  
                 });
