@@ -26,14 +26,15 @@
 
 @code {
     private string errorMessage = "";
-    private IEnumerable<Product> products;
+    private IEnumerable<BucketObject> products;
     private Product productToDelete;
     private bool showModal;
     private string modalMessage = "";
 
     protected override async Task OnInitializedAsync()
     {
-        products = await http.GetFromJsonAsync<IEnumerable<Product>>("api/products");
+        //products = await http.GetFromJsonAsync<IEnumerable<Product>>("api/products");
+        products = await http.GetFromJsonAsync<IEnumerable<BucketObject>>("https://u6xz8l7ivk.execute-api.us-east-1.amazonaws.com/Prod/api/bucket");
     }
 
     private void AddNewProduct()
@@ -43,32 +44,32 @@
 
     private async Task HandleRefresh()
     {
-        products = await http.GetFromJsonAsync<IEnumerable<Product>>("api/products");
+        //products = await http.GetFromJsonAsync<IEnumerable<Product>>("api/products");
     }
 
-    private void SelectProduct(Product product)
+    private void SelectProduct(BucketObject product)
     {
-        navigation.NavigateTo($"/product/{product.Id}");
+       // navigation.NavigateTo($"/product/{product.Id}");
     }
 
-    private void DeleteProduct(Product product)
+    private void DeleteProduct(BucketObject product)
     {
-        productToDelete = product;
-        showModal = true;
-        modalMessage = $"Would you like to delete {productToDelete.Name}";
+        //productToDelete = product;
+        //showModal = true;
+        //modalMessage = $"Would you like to delete {productToDelete.Name}";
     }
 
     private void CloseModal()
     {
-        productToDelete = null;
-        showModal = false;
+        //productToDelete = null;
+        //showModal = false;
     }
 
     private async Task DeleteFromModal()
     {
-        await http.DeleteAsync($"api/products/{productToDelete.Id}");
-        await HandleRefresh();
-        productToDelete = null;
-        showModal = false;
+        //await http.DeleteAsync($"api/products/{productToDelete.Id}");
+        //await HandleRefresh();
+        //productToDelete = null;
+        //showModal = false;
     }
 }

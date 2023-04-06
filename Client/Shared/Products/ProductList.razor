@@ -9,8 +9,8 @@ else if (Products != null && Products.Count() > 0)
         {
             <li role="presentation">
                 <div class="card">
-                    <CardContent Name="@product.Name"
-                                 Description="@product.Description" />
+                    <CardContent Name="@product.FileName"
+                                  />
 
                     <footer class="card-footer">
 
@@ -37,8 +37,8 @@ else
     <div>Loading data...</div>
 }
 @code {
-    [Parameter] public IEnumerable<Product> Products { get; set; }
-    [Parameter] public EventCallback<Product> DeleteProduct { get; set; }
-    [Parameter] public EventCallback<Product> SelectProduct { get; set; }
+    [Parameter] public IEnumerable<BucketObject> Products { get; set; }
+    [Parameter] public EventCallback<BucketObject> DeleteProduct { get; set; }
+    [Parameter] public EventCallback<BucketObject> SelectProduct { get; set; }
     [Parameter] public string ErrorMessage { get; set; }
 }

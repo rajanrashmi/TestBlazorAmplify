@@ -22,12 +22,19 @@ namespace MyApi.Controllers
             return await bucketData.GetBucketObjects();
         }
 
+        [HttpGet("rajan")]
+        public async Task<IEnumerable<BucketObject>> GetFake()
+        {
+            BucketData bucketData = new BucketData();
+            return await bucketData.GetBucketObjectsFake();
+        }
+
 
         // GET api/<BucketController>/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            return "value";
+            return "some value";
         }
 
         // POST api/<BucketController>
