@@ -32,8 +32,17 @@ namespace Client
             {
                 // Configure your authentication provider options here.
                 // For more information, see https://aka.ms/blazor-standalone-auth
+                if (builder.HostEnvironment.IsDevelopment())
+                {
+                    options.ProviderOptions.RedirectUri = "https://localhost:5001/authentication/login-callback";
+                }
                 builder.Configuration.Bind("Cognito", options.ProviderOptions);
                 var a =options.ProviderOptions.Authority;
+                options.ProviderOptions.DefaultScopes.Add("email");
+                if (builder.HostEnvironment.IsDevelopment())
+                {
+                    options.ProviderOptions.RedirectUri = "https://localhost:5001/authentication/login-callback";
+                }
                 Console.WriteLine($"Rajan options.ProviderOptions.Authority:{a}");
                 
                 
