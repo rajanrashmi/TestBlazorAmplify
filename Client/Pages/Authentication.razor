@@ -2,7 +2,14 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
 <h1>Rajan Test</h1>
-<RemoteAuthenticatorView Action="@Action" />
+<RemoteAuthenticatorView Action="@Action">
+    <LoggingIn>
+        You are about to be redirected to Cognito Provider
+    </LoggingIn>
+
+</RemoteAuthenticatorView>
+
+
 
 @code {
     int a = 0;

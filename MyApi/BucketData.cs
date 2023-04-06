@@ -32,63 +32,80 @@ namespace MyApi
 
         public async Task<IEnumerable<BucketObject>> GetBucketObjects()
         {
-            string bucketName = "rajan-test-bucket-2";
             List<BucketObject> bucketObjects = new List<BucketObject>();
-
-            // Create a client
-            AmazonS3Client client = new AmazonS3Client(RegionEndpoint.USEast1);
-            Console.WriteLine("pass1");
-
-
-
-            // Issue call
-            ListBucketsResponse myResponse = await client.ListBucketsAsync();
-            Console.WriteLine("pass2");
-
-
-            // View response data
-            Console.WriteLine("Buckets owner - {0}", myResponse.Owner.DisplayName);
-            foreach (S3Bucket bucket in myResponse.Buckets)
+            try
             {
-                Console.WriteLine("Bucket {0}, Created on {1}", bucket.BucketName, bucket.CreationDate);
-            }
+                string bucketName = "rajan-test-bucket-2";
 
-            var foundBucket = myResponse.Buckets.Select(x => x.BucketName == bucketName);
-            if (foundBucket.Any())
-            {
-                var req = new ListObjectsV2Request()
+                // Create a client
+                AmazonS3Client client = new AmazonS3Client(RegionEndpoint.USEast1);
+                Console.WriteLine("pass1");
+
+
+
+                // Issue call
+                ListBucketsResponse myResponse = await client.ListBucketsAsync();
+                Console.WriteLine("pass2");
+
+
+                // View response data
+                Console.WriteLine("Buckets owner - {0}", myResponse.Owner.DisplayName);
+                foreach (S3Bucket bucket in myResponse.Buckets)
                 {
-                    BucketName = bucketName,
-                    Prefix = "File",
+                    Console.WriteLine("Bucket {0}, Created on {1}", bucket.BucketName, bucket.CreationDate);
+                }
 
-                };
-                int a = 0;
-
-                try
+                var foundBucket = myResponse.Buckets.Select(x => x.BucketName == bucketName);
+                if (foundBucket.Any())
                 {
-                    Console.WriteLine("pass3");
-
-                    var response = await client.ListObjectsV2Async(req);
-
-                    Console.WriteLine("pass4");
-
-
-                    response.S3Objects.ForEach(obj => bucketObjects.Add(new BucketObject()
+                    var req = new ListObjectsV2Request()
                     {
+                        BucketName = bucketName,
+                        Prefix = "File",
 
-                        FileName = obj.Key,
-                        Id = obj.ETag
+                    };
+                    int a = 0;
 
-                    }));
+                    try
+                    {
+                        Console.WriteLine("pass3");
+
+                        var response = await client.ListObjectsV2Async(req);
+
+                        Console.WriteLine("pass4");
+
+
+                        response.S3Objects.ForEach(obj => bucketObjects.Add(new BucketObject()
+                        {
+
+                            FileName = obj.Key,
+                            Id = obj.ETag
+
+                        }));
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error encountered on server. Message:'{ex.Message}' getting list of objects.");
+
+                    }
+
+
                 }
-                catch (Exception ex)
+            }
+            catch (Exception)
+            {
+                for (int i = 0; i < 5; i++)
                 {
-                    Console.WriteLine($"Error encountered on server. Message:'{ex.Message}' getting list of objects.");
+                    BucketObject bucketObject = new BucketObject();
+                    bucketObject.FileName = $"File{i + 1}.xml";
+                    bucketObject.Id = (i + 1).ToString();
+                    bucketObjects.Add(bucketObject);
 
                 }
-
+                await Task.Delay(10);
 
             }
+
             return bucketObjects;
         }
 
