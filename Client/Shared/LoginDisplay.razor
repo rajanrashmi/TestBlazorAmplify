@@ -3,25 +3,17 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
 @inject NavigationManager Navigation
+
 @inject SignOutSessionStateManager SignOutManager
 
 <AuthorizeView>
     <Authorized>
-        @if(context.User.Identity== null)
-        {
-            <p>Hello Guest</p>
-        }
-        else
-        {
-            
-            <p>Hello, @context.User.Identity?.Name!</p>
-
-        }
-        
-        <button class="nav-link btn btn-link" @onclick="BeginSignOut">Log out</button>
+        Hello, @context.User.Identity?.Name!
+        <button @onclick="BeginLogOut">Log out2</button>
     </Authorized>
+
     <NotAuthorized>
-        <a href="authentication/login">Log in</a>
+        <button @onclick="BeginLogIn">Log in2</button>
     </NotAuthorized>
 </AuthorizeView>
 
@@ -30,5 +22,25 @@
     {
         await SignOutManager.SetSignOutState();
         Navigation.NavigateTo("authentication/logout");
+    }
+
+    public void BeginLogOut()
+    {
+        Navigation.NavigateToLogout("authentication/logout");
+    }
+
+    public void BeginLogIn()
+    {
+        InteractiveRequestOptions requestOptions =
+            new()
+                {
+                    Interaction = InteractionType.SignIn,
+                    ReturnUrl = Navigation.Uri,
+                };
+
+        requestOptions.TryAddAdditionalParameter("prompt", "login");
+        requestOptions.TryAddAdditionalParameter("loginHint", "peter@contoso.com");
+
+        Navigation.NavigateToLogin("authentication/login", requestOptions);
     }
 }
