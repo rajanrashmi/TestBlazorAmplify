@@ -4,7 +4,10 @@
 
 @inject NavigationManager Navigation
 
-@inject SignOutSessionStateManager SignOutManager
+@using Microsoft.Extensions.Options
+
+@inject IOptionsSnapshot<RemoteAuthenticationOptions<ApiAuthorizationProviderOptions>> Options
+
 
 <AuthorizeView>
     <Authorized>
@@ -18,10 +21,9 @@
 </AuthorizeView>
 
 @code {
-    private async Task BeginSignOut(MouseEventArgs args)
+    protected override void OnInitialized()
     {
-        await SignOutManager.SetSignOutState();
-        Navigation.NavigateTo("authentication/logout");
+        //Navigation.NavigateToLogin(Options.Get(Microsoft.Extensions.Options.Options.DefaultName).AuthenticationPaths.LogInPath);
     }
 
     public void BeginLogOut()
