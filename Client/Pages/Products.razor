@@ -6,7 +6,7 @@
 
 
 <div class="content-container">
-    <ListHeader Title="Bucket List"
+    <ListHeader Title="S3 Bucket Objects"
                 HandleAdd="@AddNewProduct"
                 HandleRefresh="@HandleRefresh"
                 RoutePath="/products" />
@@ -50,7 +50,7 @@
 
     private void SelectProduct(BucketObject product)
     {
-       // navigation.NavigateTo($"/product/{product.Id}");
+       navigation.NavigateTo($"/product/{product.Id}");
     }
 
     private void DeleteProduct(BucketObject product)

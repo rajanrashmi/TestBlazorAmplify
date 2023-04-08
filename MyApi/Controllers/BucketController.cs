@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using Amazon;
 using System.Net.Sockets;
 using Data;
+using System.IO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,6 +28,21 @@ namespace MyApi.Controllers
         {
             BucketData bucketData = new BucketData();
             return await bucketData.GetBucketObjectsFake();
+        }
+
+        [HttpGet("content")]
+        public async Task<IActionResult>  GetS3ObjectContent(string key)
+        {
+            BucketData bucketData = new BucketData();
+            var stream = await bucketData.GetBucketObjectContent(key);
+            if (stream == null)
+                return NotFound(); 
+
+           // StreamReader reader = new StreamReader(stream);// for testing
+           // string text = reader.ReadToEnd();
+
+            var result =File(stream, "application/octet-stream", key);
+            return result;
         }
 
 

@@ -3,6 +3,7 @@ using Amazon.S3;
 using Data;
 using System.Text.Json;
 using Amazon;
+using System.IO;
 
 namespace MyApi
 {
@@ -28,6 +29,33 @@ namespace MyApi
         public Task<bool> DeleteBucketObject(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<Stream?> GetBucketObjectContent(string  key)
+        {
+            GetObjectResponse? response=null;
+            try
+            {
+                string bucketName = "rajan-test-bucket-2";
+
+                // Create a client
+                AmazonS3Client client = new AmazonS3Client(RegionEndpoint.USEast1);
+                Console.WriteLine("pass1");
+
+
+                response = await client.GetObjectAsync(bucketName, key);
+                Console.WriteLine("pass2");
+
+               
+
+            }
+            catch (Exception ex)
+            {
+                
+                Console.WriteLine(ex.ToString());
+            }
+
+            return response?.ResponseStream;
         }
 
         public async Task<IEnumerable<BucketObject>> GetBucketObjects()

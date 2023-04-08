@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-
+using MudBlazor.Services;
 
 namespace Client
 {
@@ -53,6 +53,8 @@ namespace Client
                         policy.AllowAnyOrigin();  //set the allowed origin  
                     });
             });
+
+            builder.Services.AddMudServices();
             await builder.Build().RunAsync();
         }
     }
