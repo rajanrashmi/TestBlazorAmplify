@@ -1,7 +1,8 @@
 ﻿@page "/authentication/{action}"
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
-<h1>Exchange Tool Test</h1>
+
+<MudPaper Class="px-8 py-4 mud-theme-primary">Authentication...</MudPaper>
 
 
 <RemoteAuthenticatorView Action="@Action">
@@ -14,22 +15,5 @@
 
 
 @code {
-    int a = 0;
-    string myurl = "login";
-    [Parameter] public string? Action2 { get; set; } 
-    
-    private int myVar;
-
-    [Parameter]
-    public string Action
-    {
-        get { return myurl; }
-        set { myurl = value; }
-    }
-    
-
-
-    
-
-  
+    [Parameter] public string? Action { get; set; } 
 }
