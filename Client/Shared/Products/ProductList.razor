@@ -35,7 +35,7 @@ else if (Products != null && Products.Count() > 0)
 }
 else
 {
-    <div>Loading data...</div>
+    <MudPaper Class="px-8 py-4 mud-theme-primary">Loading data...</MudPaper>
 }
 @code {
     [Parameter] public IEnumerable<BucketObject> Products { get; set; }
