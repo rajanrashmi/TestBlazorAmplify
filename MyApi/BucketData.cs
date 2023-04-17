@@ -17,9 +17,11 @@ namespace MyApi
 
     public class BucketData : IBucketData
     {
-        public BucketData()
+        private readonly ILogger _logger;
+
+        public BucketData(ILogger logger)
         {
-        
+            _logger = logger;
         }
         public Task<BucketObject> AddBucketObject(BucketObject product)
         {
@@ -120,8 +122,9 @@ namespace MyApi
 
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex,ex.Message);
                 for (int i = 0; i < 5; i++)
                 {
                     BucketObject bucketObject = new BucketObject();
