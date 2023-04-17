@@ -15,25 +15,31 @@ namespace MyApi.Controllers
     [ApiController]
     public class BucketController : ControllerBase
     {
+        private readonly ILogger _logger;
+
+        public BucketController(ILogger logger)
+        {
+            _logger = logger;
+        }
         // GET: api/<BucketController>
         [HttpGet]
         public async Task<IEnumerable<BucketObject>> Get()
         {
-            BucketData bucketData = new BucketData();
+            BucketData bucketData = new BucketData(_logger);
             return await bucketData.GetBucketObjects();
         }
 
         [HttpGet("rajan")]
         public async Task<IEnumerable<BucketObject>> GetFake()
         {
-            BucketData bucketData = new BucketData();
+            BucketData bucketData = new BucketData(_logger);
             return await bucketData.GetBucketObjectsFake();
         }
 
         [HttpGet("content")]
         public async Task<IActionResult>  GetS3ObjectContent(string key)
         {
-            BucketData bucketData = new BucketData();
+            BucketData bucketData = new BucketData(_logger);
             var stream = await bucketData.GetBucketObjectContent(key);
             if (stream == null)
                 return NotFound(); 
