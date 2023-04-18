@@ -14,6 +14,7 @@ public class Startup
     {
         Console.WriteLine($"In ConfigureServices()");
         services.AddControllers();
+        services.AddLogging();
 
         services.AddCors(options =>
         {
@@ -37,7 +38,6 @@ public class Startup
         {
             app.UseDeveloperExceptionPage();
         }
-
         app.UseHttpsRedirection();
 
         app.UseRouting();

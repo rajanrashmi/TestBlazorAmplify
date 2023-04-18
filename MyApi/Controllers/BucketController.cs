@@ -15,9 +15,9 @@ namespace MyApi.Controllers
     [ApiController]
     public class BucketController : ControllerBase
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<BucketController> _logger;
 
-        public BucketController(ILogger logger)
+        public BucketController(ILogger<BucketController> logger)
         {
             _logger = logger;
         }

@@ -8,7 +8,8 @@ namespace Data
 {
     public class BucketObject
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
+        public string Etag { get; set; }
         public string FileName { get; set; }
         
     }

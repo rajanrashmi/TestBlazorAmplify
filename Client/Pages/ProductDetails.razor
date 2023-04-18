@@ -91,7 +91,7 @@ else
            // var products = await http.GetFromJsonAsync<IEnumerable<Product>>("api/products");
             var products = await http.GetFromJsonAsync<IEnumerable<BucketObject>>("https://u6xz8l7ivk.execute-api.us-east-1.amazonaws.com/Prod/api/bucket");
 
-            product = products.First(p =>  p.Id == ProductId.ToString());
+            product = products.First(p =>  p.Id == ProductId);
         }
     }
 

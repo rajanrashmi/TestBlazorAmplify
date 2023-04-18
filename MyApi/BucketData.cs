@@ -18,6 +18,7 @@ namespace MyApi
     public class BucketData : IBucketData
     {
         private readonly ILogger _logger;
+        private static int _autoIncreament = 1;
 
         public BucketData(ILogger logger)
         {
@@ -94,7 +95,6 @@ namespace MyApi
                         Prefix = "File",
 
                     };
-                    int a = 0;
 
                     try
                     {
@@ -109,9 +109,10 @@ namespace MyApi
                         {
 
                             FileName = obj.Key,
-                            Id = obj.ETag
+                            Etag = obj.ETag,
+                            Id = _autoIncreament++
 
-                        }));
+                        })); ;
                     }
                     catch (Exception ex)
                     {
@@ -129,7 +130,8 @@ namespace MyApi
                 {
                     BucketObject bucketObject = new BucketObject();
                     bucketObject.FileName = $"File{i + 1}.xml";
-                    bucketObject.Id = (i + 1).ToString();
+                    bucketObject.Id = (i + 1);
+                    bucketObject.Etag = Guid.NewGuid().ToString();
                     bucketObjects.Add(bucketObject);
 
                 }
@@ -162,7 +164,8 @@ namespace MyApi
             {
                 BucketObject bucketObject = new BucketObject();
                 bucketObject.FileName = $"File{i + 1}.xml";
-                bucketObject.Id = (i + 1).ToString();
+                bucketObject.Id = (i + 1);
+                bucketObject.Etag = Guid.NewGuid().ToString() ;
                 bucketObjects.Add(bucketObject);
 
             }
