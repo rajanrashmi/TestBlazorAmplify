@@ -23,6 +23,7 @@ namespace MyApi
         public BucketData(ILogger logger)
         {
             _logger = logger;
+            _autoIncreament = 1;
         }
         public Task<BucketObject> AddBucketObject(BucketObject product)
         {

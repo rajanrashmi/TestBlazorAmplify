@@ -36,6 +36,7 @@
     {
         //products = await http.GetFromJsonAsync<IEnumerable<Product>>("api/products");
         products = await http.GetFromJsonAsync<IEnumerable<BucketObject>>("https://u6xz8l7ivk.execute-api.us-east-1.amazonaws.com/Prod/api/bucket");
+        //var product = await http.GetFromJsonAsync<BucketObject>("https://u6xz8l7ivk.execute-api.us-east-1.amazonaws.com/Prod/api/bucket/1");
     }
 
     private void AddNewProduct()

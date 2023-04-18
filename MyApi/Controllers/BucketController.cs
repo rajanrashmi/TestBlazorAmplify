@@ -6,6 +6,7 @@ using Amazon;
 using System.Net.Sockets;
 using Data;
 using System.IO;
+using Microsoft.AspNetCore.Cors;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,6 +14,7 @@ namespace MyApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors]
     public class BucketController : ControllerBase
     {
         private readonly ILogger<BucketController> _logger;
@@ -44,19 +46,44 @@ namespace MyApi.Controllers
             if (stream == null)
                 return NotFound(); 
 
-           // StreamReader reader = new StreamReader(stream);// for testing
-           // string text = reader.ReadToEnd();
+           StreamReader reader = new StreamReader(stream);// for testing
+           string content = reader.ReadToEnd();
 
-            var result =File(stream, "application/octet-stream", key);
-            return result;
+           // var result =File(stream, "application/octet-stream", key);
+           // return stream;
+           return Ok(content);
         }
 
 
         // GET api/<BucketController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return "some value";
+            //return "some value";
+            BucketObject bucketObject = null;
+            BucketData bucketData = new BucketData(_logger);
+            var objects = await bucketData.GetBucketObjects();
+            if (objects == null || objects.Count() ==0)
+            {
+                return NotFound();
+            }
+            try
+            {
+                bucketObject = objects.First<BucketObject>(x => x.Id == id);
+            }
+            catch (ArgumentNullException e )
+            {
+                return NotFound();
+            }
+            catch (InvalidOperationException e)
+            {
+                return NotFound();
+            }
+            if (bucketObject == null )
+            {
+                return NotFound();
+            }
+            return Ok(bucketObject);
         }
 
         // POST api/<BucketController>

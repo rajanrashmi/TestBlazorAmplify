@@ -88,10 +88,15 @@ else
         }
         else
         {
-           // var products = await http.GetFromJsonAsync<IEnumerable<Product>>("api/products");
-            var products = await http.GetFromJsonAsync<IEnumerable<BucketObject>>("https://u6xz8l7ivk.execute-api.us-east-1.amazonaws.com/Prod/api/bucket");
+            product = await http.GetFromJsonAsync<BucketObject>($"https://u6xz8l7ivk.execute-api.us-east-1.amazonaws.com/Prod/api/bucket/{ProductId}");
+            var url = $"https://u6xz8l7ivk.execute-api.us-east-1.amazonaws.com/Prod/api/bucket/content?key={product.FileName}";
+            content = await http.GetStringAsync(url);
+            //StreamReader reader = new StreamReader(resultStream);
+            //content = reader.ReadToEnd();
+            int a = 0;
+            // var products = await http.GetFromJsonAsync<IEnumerable<Product>>("api/products");
+           // var product = await http.GetFromJsonAsync<BucketObject>($"https://u6xz8l7ivk.execute-api.us-east-1.amazonaws.com/Prod/api/bucket/{ProductId}");
 
-            product = products.First(p =>  p.Id == ProductId);
         }
     }
 
