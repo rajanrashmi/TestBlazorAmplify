@@ -1,4 +1,4 @@
-﻿@page "/products"
+﻿@page "/products-grid"
 @using Microsoft.AspNetCore.Authorization;
 @inject HttpClient http
 @inject NavigationManager navigation
@@ -12,7 +12,7 @@
                 RoutePath="/products" />
     <div class="columns is-multiline is-variable">
         <div class="column is-8">
-            <ProductList ErrorMessage="@errorMessage"
+            <ProductListGrid ErrorMessage="@errorMessage"
                          Products="@products"
                          SelectProduct="@SelectProduct"
                          DeleteProduct="@DeleteProduct" />
@@ -22,7 +22,7 @@
     <ModalYesNo Message="@modalMessage"
                 OnNo="@CloseModal"
                 OnYes="@DeleteFromModal"
-                Show="@showModal"/>
+                Show="@showModal" />
 </div>
 
 @code {
@@ -41,7 +41,7 @@
 
     private void AddNewProduct()
     {
-       // navigation.NavigateTo("/product/0");
+        //navigation.NavigateTo("/product/0");
     }
 
     private async Task HandleRefresh()
@@ -51,7 +51,8 @@
 
     private void SelectProduct(BucketObject product)
     {
-       navigation.NavigateTo($"/product/{product.Id}");
+        string s = this.navigation.Uri;
+        navigation.NavigateTo($"/product-grid/{product.Id}");
     }
 
     private void DeleteProduct(BucketObject product)

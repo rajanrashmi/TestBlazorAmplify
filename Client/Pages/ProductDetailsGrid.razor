@@ -1,0 +1,120 @@
+﻿@page "/product-grid/{productId:int}"
+@using Microsoft.AspNetCore.Authorization;
+
+@inject HttpClient http
+@inject NavigationManager navigation
+@*@attribute [Authorize]*@
+
+@if (product == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="card edit-detail">
+        <header class="card-header">
+            <p class="card-header-title">
+                @product.FileName
+            </p>
+        </header>
+        <div class="card-content">
+            <div class="content">
+                @if (ProductId == 0)
+                {
+                    <label class="label" for="id">id</label>
+                    <input name="id"
+                           class="input"
+                           value="@product.Id"
+                           readonly="readonly" />
+                }
+
+                @*<MudPaper Width="300px" Outlined=true >
+            <MudList Clickable="true">
+
+            <MudListItem Text="@content" />
+            </MudList>
+            </MudPaper>
+
+            <MudCard>
+            <MudCardContent>
+            <MudText>@content</MudText>
+            <MudText Typo="Typo.body2">@content</MudText>
+            </MudCardContent>
+
+            </MudCard>*@
+                @* <MudPaper Elevation="0" Class="pa-4" Style="height:100px; width:180px;">
+            <div class="d-none d-lg-block mud-theme-tertiary rounded" style="height:100%; width:100%;">@content</div>
+            </MudPaper>*@
+
+                <MudTextField @bind-Value="@content" Label="S3 Bucket Object Content" Lines="20" Variant="Variant.Filled"></MudTextField>
+
+
+            </div>
+        </div>
+        <footer class="card-footer ">
+            <ButtonFooter Class="cancel-button"
+                      IconClasses="fas fa-undo"
+                      OnClick="@CancelProduct"
+                      Label="Back" />
+
+        </footer>
+    </div>
+}
+
+@code {
+    private BucketObject product;
+    private string content = @"<RealEC-XML>
+  <Header>
+    <Format>RealEC</Format>
+  </Header>
+
+  <Transaction>
+    <ProductList>
+      <Count>1</Count>
+      <Product>Product 1</Product>
+    </ProductList>
+  </Transaction>
+
+</RealEC-XML>
+";
+
+    [Parameter] public int ProductId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (ProductId == 0)
+        {
+            product = new BucketObject();
+        }
+        else
+        {
+            product = await http.GetFromJsonAsync<BucketObject>($"https://u6xz8l7ivk.execute-api.us-east-1.amazonaws.com/Prod/api/bucket/{ProductId}");
+            var url = $"https://u6xz8l7ivk.execute-api.us-east-1.amazonaws.com/Prod/api/bucket/content?key={product.FileName}";
+            content = await http.GetStringAsync(url);
+            //StreamReader reader = new StreamReader(resultStream);
+            //content = reader.ReadToEnd();
+            int a = 0;
+            // var products = await http.GetFromJsonAsync<IEnumerable<Product>>("api/products");
+            // var product = await http.GetFromJsonAsync<BucketObject>($"https://u6xz8l7ivk.execute-api.us-east-1.amazonaws.com/Prod/api/bucket/{ProductId}");
+
+        }
+    }
+
+    private void CancelProduct()
+    {
+        navigation.NavigateTo("/products-grid");
+    }
+
+    private async Task Save()
+    {
+        //if (product.Id == 0)
+        //{
+        //    await http.PostAsJsonAsync("api/products", product);
+        //}
+        //else
+        //{
+        //    await http.PutAsJsonAsync("api/products", product);
+        //}
+        //navigation.NavigateTo("/");
+    }
+}
