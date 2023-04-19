@@ -12,11 +12,15 @@
 <AuthorizeView>
     <Authorized>
         Hello, @context.User.Identity?.Name!
-        <button @onclick="BeginLogOut">Log out</button>
+        @*<button @onclick="BeginLogOut">Log out</button>*@
+        <MudButton Variant="Variant.Text" OnClick="BeginLogOut" Color="Color.Inherit">Log out</MudButton>
+
     </Authorized>
 
     <NotAuthorized>
-        <button @onclick="BeginLogIn">Log in</button>
+        
+        <MudButton Variant="Variant.Text" OnClick="BeginLogIn" Color="Color.Inherit">Log In</MudButton>
+        @*<button @onclick="BeginLogIn">Log in</button>*@
     </NotAuthorized>
 </AuthorizeView>
 
